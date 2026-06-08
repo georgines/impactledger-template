@@ -1,0 +1,44 @@
+{
+  "name": "elosolidario",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "contracts"
+  ],
+  "scripts": {
+    "postinstall": "ts-node scripts/ensure-foundry.ts && ts-node scripts/setup-direnv.ts || true",
+    "copy-abis": "ts-node scripts/copy-abis.ts",
+    "dev": "yarn workspace elosolidario-frontend dev",
+    "dev:turbo": "yarn workspace elosolidario-frontend dev:turbo",
+    "build": "yarn workspace elosolidario-frontend build",
+    "start": "yarn workspace elosolidario-frontend start",
+    "format": "yarn workspace elosolidario-frontend format",
+    "format:check": "yarn workspace elosolidario-frontend format:check",
+    "compile": "yarn workspace elosolidario-contracts compile",
+    "test": "yarn test:contracts && yarn test:frontend && yarn test:scripts",
+    "test:contracts": "yarn workspace elosolidario-contracts test",
+    "test:frontend": "yarn workspace elosolidario-frontend test",
+    "test:scripts": "vitest run --config vitest.scripts.config.mts",
+    "test:verbose": "yarn workspace elosolidario-contracts test:verbose",
+    "coverage": "yarn workspace elosolidario-contracts coverage",
+    "coverage:report": "yarn workspace elosolidario-contracts coverage:report",
+    "node": "yarn workspace elosolidario-contracts node",
+    "deploy:local": "yarn compile && ts-node scripts/deploy_local.ts",
+    "deploy:sepolia": "yarn compile && ts-node scripts/deploy_sepolia.ts",
+    "audit:slither": "yarn workspace elosolidario-contracts audit:slither",
+    "audit:mythril": "yarn workspace elosolidario-contracts audit:mythril",
+    "audit": "yarn workspace elosolidario-contracts audit",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^20.0.0",
+    "ethers": "^6.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0",
+    "vitest": "^4.1.7"
+  }
+}

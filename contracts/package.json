@@ -1,0 +1,19 @@
+{
+  "name": "elosolidario-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "compile": "forge build",
+    "test": "forge test",
+    "test:verbose": "forge test -vvv",
+    "coverage": "forge coverage",
+    "coverage:report": "forge coverage --report lcov",
+    "node": "anvil",
+    "audit:slither": "slither .. --exclude-dependencies --filter-paths 'contracts/lib/forge-std' || true",
+    "audit:mythril": "myth analyze GovernanceDAO.sol InstitutionRegistry.sol PurchaseManager.sol Treasury.sol --solv 0.8.35 --execution-timeout 60",
+    "audit": "yarn audit:slither && yarn audit:mythril"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0"
+  }
+}

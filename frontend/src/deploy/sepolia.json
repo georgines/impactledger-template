@@ -1,0 +1,12 @@
+{
+  "network": "sepolia",
+  "deployedAt": "2026-06-06T00:15:01.357Z",
+  "deployedAtBlock": 10998342,
+  "deployer": "0x0ACeC7D91d8df0AF2C04f6B6f801Ce7C690F4503",
+  "contracts": {
+    "GovernanceDAO": "0x265006aDc8fE15DD782fDcC66ae38C54e120A930",
+    "InstitutionRegistry": "0x60a12179CC39b096C9C575512c340C1434C366a5",
+    "Treasury": "0xCA6c062CBa0Bad79E3f333d103a30A1021965082",
+    "PurchaseManager": "0x18d46dd9979f51Efb7CbEd2D1ba52C8a07Bc362a"
+  }
+}
