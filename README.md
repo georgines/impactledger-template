@@ -101,7 +101,8 @@ Instruções completas: [Como rodar o projeto localmente ou na Sepolia](docs/exe
 
 - [Contratos publicados na Sepolia: endereços e Etherscan](docs/contratos.md)
 - [Capturas de tela do fluxo principal](docs/demo/screenshots.md)
-- [Vídeo de demonstração](docs/demo/video.md)
+- [Vídeo de pitch e demonstração](docs/demo/video.md)
+- [Slides do Pitch](docs/slider/slider_pitch.html)
 
 **Para desenvolvedores**
 
