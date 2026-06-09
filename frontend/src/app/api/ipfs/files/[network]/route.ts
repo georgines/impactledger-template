@@ -3,6 +3,7 @@ import { PinataProvider } from '@/services/ipfs/pinataProvider'
 import { parseServerEnv } from '@/env'
 import type { IpfsNetwork } from '@/services/ipfs/provider'
 
+// Lista arquivos de uma rede IPFS específica (public ou private) com filtros opcionais.
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ network: string }> },

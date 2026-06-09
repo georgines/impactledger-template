@@ -11,6 +11,7 @@ interface UseFinalizeProposalResult {
   handleFinalize: () => Promise<void>
 }
 
+// Hook para finalizar a apuração de uma proposta e notificar o componente pai.
 export function useFinalizeProposal(
   signer: Signer | null,
   proposal: Pick<Proposal, 'proposalId' | 'name' | 'metadata' | 'status'>,
@@ -25,6 +26,7 @@ export function useFinalizeProposal(
     setFinalizeError(null)
   }, [proposal.proposalId, proposal.status])
 
+  // Executa finalize no contrato e chama onFinalized em caso de sucesso.
   async function handleFinalize() {
     setFinalizing(true)
     setFinalizeError(null)

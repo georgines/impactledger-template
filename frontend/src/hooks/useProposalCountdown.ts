@@ -8,11 +8,13 @@ interface CountdownResult {
   display: string
 }
 
+// Calcula segundos restantes até o deadline a partir do horário atual.
 function computeSecondsLeft(deadline: bigint): number {
   const now = Math.floor(Date.now() / 1000)
   return Math.max(0, Number(deadline) - now)
 }
 
+// Hook de contagem regressiva em tempo real até o deadline de uma proposta.
 export function useProposalCountdown(deadline: bigint): CountdownResult {
   const [secondsLeft, setSecondsLeft] = useState(() => computeSecondsLeft(deadline))
 
@@ -34,6 +36,7 @@ export function useProposalCountdown(deadline: bigint): CountdownResult {
   return { secondsLeft, expired, display }
 }
 
+// Formata segundos em string legível (ex: "2d 3h 15min 4s").
 function formatCountdown(seconds: number): string {
   const days = Math.floor(seconds / 86400)
   const hours = Math.floor((seconds % 86400) / 3600)

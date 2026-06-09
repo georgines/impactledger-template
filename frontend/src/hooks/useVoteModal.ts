@@ -14,6 +14,7 @@ interface UseVoteModalResult {
   submitVote: (support: boolean) => Promise<void>
 }
 
+// Hook que gerencia o estado e ações do modal de votação em uma proposta.
 export function useVoteModal(
   signer: Signer | null,
   proposal: Pick<Proposal, 'proposalId'>,
@@ -24,16 +25,19 @@ export function useVoteModal(
   const [voting, setVoting] = useState(false)
   const [voteError, setVoteError] = useState<string | null>(null)
 
+  // Abre o modal de votação e limpa erros anteriores.
   function open() {
     setVoteError(null)
     setIsOpen(true)
   }
 
+  // Fecha o modal de votação e limpa erros.
   function close() {
     setIsOpen(false)
     setVoteError(null)
   }
 
+  // Envia o voto on-chain, fecha o modal e notifica o componente pai em caso de sucesso.
   async function submitVote(support: boolean) {
     setVoting(true)
     setVoteError(null)

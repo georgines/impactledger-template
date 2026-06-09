@@ -35,6 +35,7 @@ const ENV_CONFIG_FIELDS: Record<keyof DeployConfig, string> = {
   confirmationWindow:  'JANELA_CONFIRMACAO',
 }
 
+// Lê configurações de deploy das variáveis de ambiente com fallback para defaults.
 export function createConfigFromEnv(defaults?: Partial<DeployConfig>): DeployConfig {
   const resolve = (field: keyof DeployConfig): bigint => {
     const envVar = ENV_CONFIG_FIELDS[field]
@@ -62,6 +63,7 @@ export function createConfigFromEnv(defaults?: Partial<DeployConfig>): DeployCon
   }
 }
 
+// Lê e retorna ABI e bytecode do artefato compilado de um contrato.
 export function loadArtifact(contractName: string): ContractArtifact {
   const artifactPath = path.resolve(
     __dirname,
@@ -81,6 +83,7 @@ export function loadArtifact(contractName: string): ContractArtifact {
   return { abi: raw.abi, bytecode: raw.bytecode.object }
 }
 
+// Carrega os artefatos de todos os quatro contratos do projeto.
 export function loadAllArtifacts(): AllArtifacts {
   return {
     GovernanceDAO: loadArtifact('GovernanceDAO'),
@@ -90,6 +93,7 @@ export function loadAllArtifacts(): AllArtifacts {
   }
 }
 
+// Pré-calcula os endereços determinísticos dos contratos a partir do nonce inicial.
 export function preCalculateAddresses(deployer: string, startNonce: number): DeployedAddresses {
   return {
     GovernanceDAO: ethers.getCreateAddress({ from: deployer, nonce: startNonce }),
@@ -99,6 +103,7 @@ export function preCalculateAddresses(deployer: string, startNonce: number): Dep
   }
 }
 
+// Verifica que os endereços deployados coincidem com os pré-calculados; lança erro se divergirem.
 export function verifyAddresses(expected: DeployedAddresses, actual: DeployedAddresses): void {
   const keys = Object.keys(expected) as Array<keyof DeployedAddresses>
   const mismatch = keys.find((key) => expected[key].toLowerCase() !== actual[key].toLowerCase())
@@ -111,6 +116,7 @@ export function verifyAddresses(expected: DeployedAddresses, actual: DeployedAdd
   )
 }
 
+// Faz deploy de um contrato com nonce explícito e aguarda confirmação.
 export async function deployContract(
   factory: ContractFactory,
   args: unknown[],
@@ -121,6 +127,7 @@ export async function deployContract(
   return contract
 }
 
+// Verifica conectividade com o nó RPC; lança erro com instrução de inicialização se falhar.
 export async function checkNodeConnection(
   provider: ethers.JsonRpcProvider,
   rpcUrl: string,
@@ -132,6 +139,7 @@ export async function checkNodeConnection(
   }
 }
 
+// Faz deploy dos quatro contratos em sequência determinística e retorna endereços deployados.
 export async function deployAllContracts(
   wallet: ethers.Wallet,
   artifacts: AllArtifacts,

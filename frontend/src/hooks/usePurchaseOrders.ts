@@ -4,6 +4,7 @@ import type { Provider } from 'ethers'
 import { fetchPurchasesByInstitution } from '@/services/purchaseService'
 import { useFetchWithRefresh } from '@/hooks/useFetchWithRefresh'
 
+// Hook que carrega pedidos de compra de uma instituição com suporte a refetch.
 export function usePurchaseOrders(provider: Provider | null, institutionAddress: string | null) {
   const {
     data: orders,

@@ -5,6 +5,7 @@ import type { IpfsNetwork } from '@/services/ipfs/provider'
 import { validateUploadFile } from '@/lib/uploadValidation'
 import { isRateLimited } from '@/lib/rateLimiter'
 
+// Recebe arquivo e faz upload para rede IPFS específica (public ou private) no Pinata.
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ network: string }> },

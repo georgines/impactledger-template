@@ -45,6 +45,7 @@ export interface PaymentActivity {
 
 export type ActivityEvent = DonationActivity | PaymentActivity
 
+// Busca os timestamps de uma lista de blocos e retorna um mapa blockNumber→timestamp.
 async function fetchBlockTimestamps(
   provider: Provider,
   blockNumbers: number[],
@@ -58,6 +59,7 @@ async function fetchBlockTimestamps(
   return map
 }
 
+// Constrói um PaymentRecord combinando dados do evento ImmutableReceipt com dados do contrato.
 async function buildPaymentRecord(
   contract: ReturnType<typeof getPurchaseManagerContract>,
   event: EventLog,
@@ -78,6 +80,7 @@ async function buildPaymentRecord(
   }
 }
 
+// Busca todos os pagamentos liberados via eventos ImmutableReceipt ordenados por bloco.
 export async function fetchAllPayments(provider: Provider): Promise<PaymentRecord[]> {
   const contract = getPurchaseManagerContract(provider)
   const events = await contract.queryFilter(contract.filters.ImmutableReceipt(), FROM_BLOCK)
@@ -91,6 +94,7 @@ export async function fetchAllPayments(provider: Provider): Promise<PaymentRecor
   return records.sort((a, b) => b.blockNumber - a.blockNumber)
 }
 
+// Busca todas as doações registradas na plataforma como atividades com timestamp.
 export async function fetchAllDonations(provider: Provider): Promise<DonationActivity[]> {
   const treasury = getTreasuryContract(provider)
   const events = await treasury.queryFilter(treasury.filters.DonationReceived(), FROM_BLOCK)
@@ -110,6 +114,7 @@ export async function fetchAllDonations(provider: Provider): Promise<DonationAct
   })
 }
 
+// Busca e combina doações e pagamentos em um feed de atividade ordenado por bloco.
 export async function fetchAllActivity(provider: Provider): Promise<ActivityEvent[]> {
   const [payments, donations] = await Promise.all([
     fetchAllPayments(provider),

@@ -6,6 +6,7 @@ export const AREA_COLORS: Record<string, string> = {
   social: 'cyan',
 }
 
+// Retorna a cor Mantine correspondente à área de atuação da instituição.
 export function resolveAreaColor(areaOfWork: string): string {
   const lower = areaOfWork.toLowerCase()
   for (const [key, color] of Object.entries(AREA_COLORS)) {
@@ -14,6 +15,7 @@ export function resolveAreaColor(areaOfWork: string): string {
   return 'indigo'
 }
 
+// Extrai as iniciais das duas primeiras palavras de um nome.
 export function getInitials(name: string): string {
   return name
     .split(' ')

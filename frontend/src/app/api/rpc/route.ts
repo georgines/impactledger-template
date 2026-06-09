@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { parseRpcEnv } from '@/env'
 import { isRateLimited } from '@/lib/rateLimiter'
 
+// Proxy RPC com rate limit: repassa chamadas JSON-RPC para o nó configurado em URL_RPC.
 export async function POST(request: NextRequest): Promise<NextResponse> {
   if (isRateLimited(request, 60))
     return NextResponse.json(

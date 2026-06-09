@@ -25,6 +25,7 @@ import {
 
 const OUT_PATH = path.resolve(__dirname, '..', 'frontend', 'src', 'deploy', 'sepolia.json')
 
+// Lê variável de ambiente obrigatória; lança erro se ausente ou vazia.
 function requireEnv(name: string): string {
   const value = process.env[name]
   if (!value) throw new Error(`Variável de ambiente obrigatória não definida: ${name}`)
@@ -32,6 +33,7 @@ function requireEnv(name: string): string {
 }
 
 
+// Salva o resultado do deploy Sepolia em JSON incluindo o número do bloco de deploy.
 function saveDeployOutput(deployer: string, addresses: DeployedAddresses, deployedAtBlock: number): void {
   const output = {
     network: 'sepolia',
@@ -46,6 +48,7 @@ function saveDeployOutput(deployer: string, addresses: DeployedAddresses, deploy
   console.log('\nSaída salva em:', OUT_PATH)
 }
 
+// Orquestra o deploy completo na Sepolia lendo configurações do ambiente.
 async function main(): Promise<void> {
   const rpcUrl     = requireEnv('URL_RPC')
   const privateKey = requireEnv('CHAVE_PRIVADA_DEPLOYER')

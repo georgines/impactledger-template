@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import type { Provider } from 'ethers'
 import { fetchAllDonations, sumDonationAmounts } from '@/services/donationService'
 
+// Hook que calcula o total histórico de doações para estatísticas da plataforma.
 export function usePlatformStats(provider: Provider | null) {
   const [totalHistoricalDonations, setTotalHistoricalDonations] = useState<bigint | null>(null)
   const [loading, setLoading] = useState(false)

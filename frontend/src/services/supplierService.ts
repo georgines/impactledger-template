@@ -8,11 +8,13 @@ export interface Supplier {
   approved: boolean
 }
 
+// Busca o nome de um fornecedor pelo endereço em uma lista local.
 export function resolveSupplierName(suppliers: Supplier[], address: string): string | undefined {
   const normalized = address.toLowerCase()
   return suppliers.find((s) => s.address.toLowerCase() === normalized)?.name
 }
 
+// Busca todos os fornecedores aprovados via eventos SupplierApproved e status atual.
 export async function fetchSuppliers(provider: Provider): Promise<Supplier[]> {
   const contract = getPurchaseManagerContract(provider)
   const filter = contract.filters.SupplierApproved()

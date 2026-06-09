@@ -4,12 +4,14 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Provider } from 'ethers'
 import { fetchProposals, fetchSingleProposal, type Proposal } from '@/services/governanceService'
 
+// Hook que carrega a lista de propostas e suporta atualização individual sem recarregar tudo.
 export function useProposalList(provider: Provider | null) {
   const [proposals, setProposals] = useState<Proposal[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const proposalsRef = useRef<Proposal[]>([])
 
+  // Busca todas as propostas e atualiza o estado local e a ref.
   const load = useCallback(async () => {
     if (!provider) return
     setLoading(true)
@@ -25,6 +27,7 @@ export function useProposalList(provider: Provider | null) {
     }
   }, [provider])
 
+  // Atualiza os dados de uma proposta específica preservando name/metadata do evento original.
   const refreshSingleProposal = useCallback(
     async (proposalId: bigint) => {
       if (!provider) return

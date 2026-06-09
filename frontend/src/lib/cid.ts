@@ -1,6 +1,7 @@
 const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 const BASE32_ALPHABET = 'abcdefghijklmnopqrstuvwxyz234567'
 
+// Decodifica uma string base58 em bytes brutos.
 function base58Decode(input: string): Uint8Array {
   const bytes = [0]
   for (const char of input) {
@@ -24,6 +25,7 @@ function base58Decode(input: string): Uint8Array {
   return new Uint8Array(bytes.reverse())
 }
 
+// Decodifica uma string base32 (lowercase) em bytes brutos.
 function base32Decode(input: string): Uint8Array {
   const lower = input.toLowerCase()
   const bytes: number[] = []
@@ -42,6 +44,7 @@ function base32Decode(input: string): Uint8Array {
   return new Uint8Array(bytes)
 }
 
+// Codifica bytes brutos em string base32 lowercase.
 function base32Encode(bytes: Uint8Array): string {
   let result = ''
   let buffer = 0
@@ -60,6 +63,7 @@ function base32Encode(bytes: Uint8Array): string {
   return result
 }
 
+// Codifica bytes brutos em string base58.
 function base58Encode(bytes: Uint8Array): string {
   const digits = [0]
   for (const byte of bytes) {
@@ -85,6 +89,7 @@ function base58Encode(bytes: Uint8Array): string {
   return result
 }
 
+// Converte CIDv0 ou CIDv1 IPFS em bytes32 hex para uso on-chain.
 export function cidToBytes32(cid: string): string {
   if (cid.startsWith('b') || cid.startsWith('B')) {
     // CIDv1: multibase prefix 'b' = base32 lowercase
@@ -101,6 +106,7 @@ export function cidToBytes32(cid: string): string {
   return '0x' + Array.from(hash, (b) => b.toString(16).padStart(2, '0')).join('')
 }
 
+// Converte bytes32 hex em CIDv1 base32 (formato bafyrei...).
 export function bytes32ToCid(bytes32: string): string {
   const hex = bytes32.startsWith('0x') ? bytes32.slice(2) : bytes32
   if (hex.length !== 64) throw new Error('bytes32 inválido: comprimento inesperado')
@@ -110,6 +116,7 @@ export function bytes32ToCid(bytes32: string): string {
   return 'b' + base32Encode(cidBytes)
 }
 
+// Converte bytes32 hex em CIDv0 base58 (formato Qm...).
 export function bytes32ToCidV0(bytes32: string): string {
   const hex = bytes32.startsWith('0x') ? bytes32.slice(2) : bytes32
   if (hex.length !== 64) throw new Error('bytes32 inválido: comprimento inesperado')

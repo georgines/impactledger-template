@@ -9,6 +9,7 @@ interface UseVoteStatusResult {
   loading: boolean
 }
 
+// Hook que verifica se o endereço conectado já votou em uma proposta específica.
 export function useVoteStatus(
   proposalId: bigint | null,
   address: string | null,

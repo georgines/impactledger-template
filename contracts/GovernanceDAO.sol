@@ -266,10 +266,12 @@ contract GovernanceDAO {
     // Leitura
     // -------------------------------------------------------------------------
 
+    // Retorna os dados completos de uma proposta pelo ID.
     function getProposal(uint256 proposalId) external view returns (Proposal memory) {
         return _getProposal(proposalId);
     }
 
+    // Verifica se um endereço já votou em uma proposta específica.
     function hasVoted(uint256 proposalId, address voter) external view returns (bool) {
         return _hasVoted[proposalId][voter];
     }
@@ -278,6 +280,7 @@ contract GovernanceDAO {
     // Internos
     // -------------------------------------------------------------------------
 
+    // Executa a ação on-chain correspondente ao tipo de proposta aprovada.
     function _dispatch(
         Proposal storage p,
         string calldata name,
@@ -301,6 +304,7 @@ contract GovernanceDAO {
         }
     }
 
+    // Busca uma proposta pelo ID; reverte com ProposalNotFound se não existir.
     function _getProposal(uint256 proposalId) private view returns (Proposal storage) {
         Proposal storage p = _proposals[proposalId];
         if (p.id == 0) revert GovernanceDAO__ProposalNotFound(proposalId);

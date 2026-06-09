@@ -9,6 +9,7 @@ const ALLOWED_TYPES = [
   'image/webp',
 ]
 
+// Converte parâmetro de query string em número de limite; retorna undefined se inválido.
 export function parseLimit(value: string | null): number | undefined {
   if (value === null) return undefined
   const parsed = parseInt(value, 10)
@@ -16,6 +17,7 @@ export function parseLimit(value: string | null): number | undefined {
   return Math.min(parsed, 100)
 }
 
+// Valida tamanho e tipo do arquivo; retorna mensagem de erro ou null se válido.
 export function validateUploadFile(file: Blob): string | null {
   if (file.size > MAX_FILE_SIZE) return 'Arquivo muito grande. Máximo permitido: 10 MB.'
   if (!ALLOWED_TYPES.includes(file.type))

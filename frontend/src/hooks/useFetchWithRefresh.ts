@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+// Hook genérico de busca com suporte a refetch manual via incremento de tick.
 export function useFetchWithRefresh<T>(
   fetchFn: () => Promise<T[]>,
   enabled: boolean,
@@ -25,6 +26,7 @@ export function useFetchWithRefresh<T>(
       .finally(() => setLoading(false))
   }, [enabled, tick, errorMessage])
 
+  // Força nova busca incrementando o tick que dispara o useEffect.
   const refetch = useCallback(() => setTick((t) => t + 1), [])
 
   return { data, loading, error, refetch }

@@ -90,6 +90,7 @@ const WALLET_ERROR_MESSAGES: Record<string, string> = {
 // fornece o selector bruto em err.data.
 // ---------------------------------------------------------------------------
 
+// Constrói mapa de seletor hex (4 bytes) → nome do erro a partir das ABIs dos contratos.
 function buildErrorSelectorMap(): Map<string, string> {
   const abis = [GovernanceDAOABI, TreasuryABI, InstitutionRegistryABI, PurchaseManagerABI]
   const map = new Map<string, string>()

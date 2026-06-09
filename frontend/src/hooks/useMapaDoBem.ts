@@ -11,6 +11,7 @@ export interface UseMapaDoBemResult {
   error: string | null
 }
 
+// Hook que carrega o feed de atividades da plataforma (doações + pagamentos) para o Mapa do Bem.
 export function useMapaDoBem(provider: Provider | null): UseMapaDoBemResult {
   const [activities, setActivities] = useState<ActivityEvent[]>([])
   const [loading, setLoading] = useState(true)

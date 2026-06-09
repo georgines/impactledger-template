@@ -8,6 +8,7 @@ const EMPTY_HASH = '0x' + '0'.repeat(64)
 const cache = new Map<string, IpfsMetadata>()
 const inflight = new Map<string, Promise<IpfsMetadata>>()
 
+// Hook que busca metadados JSON do IPFS por bytes32 com cache em memória e dedup de requisições.
 export function useIpfsMetadata(bytes32: string | null) {
   const [metadata, setMetadata] = useState<IpfsMetadata | null>(
     bytes32 ? (cache.get(bytes32) ?? null) : null,

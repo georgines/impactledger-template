@@ -7,6 +7,7 @@ export interface IpfsMetadata {
   createdAt: string
 }
 
+// Faz upload de conteúdo para o IPFS via proxy interno e retorna o CID.
 export async function uploadToIPFS(content: string | Blob): Promise<string> {
   const blob =
     typeof content === 'string' ? new Blob([content], { type: 'application/json' }) : content
@@ -20,11 +21,13 @@ export async function uploadToIPFS(content: string | Blob): Promise<string> {
   return cid
 }
 
+// Faz upload para IPFS e converte o CID resultante em bytes32 para uso on-chain.
 export async function uploadToIPFSAsBytes32(content: string | Blob): Promise<string> {
   const cid = await uploadToIPFS(content)
   return cidToBytes32(cid)
 }
 
+// Lista arquivos pinados no IPFS com filtros opcionais de limite e nome.
 export async function listIpfsFiles(options?: ListFilesOptions): Promise<PinnedFile[]> {
   const params = new URLSearchParams()
   if (options?.limit !== undefined) params.set('limit', String(options.limit))
@@ -38,10 +41,12 @@ export async function listIpfsFiles(options?: ListFilesOptions): Promise<PinnedF
   return response.json() as Promise<PinnedFile[]>
 }
 
+// Retorna a URL do gateway Pinata para acessar um arquivo pelo CID.
 export function getIpfsGatewayUrl(cid: string): string {
   return `https://gateway.pinata.cloud/ipfs/${cid}`
 }
 
+// Converte bytes32 em CID e busca os metadados JSON correspondentes do IPFS.
 export async function fetchFromIPFSByBytes32(bytes32: string): Promise<IpfsMetadata> {
   const cid = bytes32ToCid(bytes32)
   const response = await fetch(`/api/ipfs/fetch/${cid}`)

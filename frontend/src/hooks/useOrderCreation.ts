@@ -8,10 +8,12 @@ import { translateContractError } from '@/services/contractErrors'
 type Contract = ReturnType<typeof getPurchaseManagerContract>
 type TxResult = { wait(): Promise<unknown> }
 
+// Hook para criação de pedidos de compra via PurchaseManager.
 export function useOrderCreation(signer: Signer | null) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Wrapper que executa ação no contrato com gestão de loading e erro.
   async function execute(action: (c: Contract) => Promise<TxResult>): Promise<void> {
     if (!signer) throw new Error('Signer não disponível')
     setLoading(true)
@@ -28,6 +30,7 @@ export function useOrderCreation(signer: Signer | null) {
     }
   }
 
+  // Abre um novo pedido de compra on-chain para o fornecedor indicado.
   async function createOrder(
     supplier: string,
     amount: bigint,

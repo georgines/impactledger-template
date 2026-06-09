@@ -51,31 +51,37 @@ export interface Proposal {
 
 // Contrato: Active=0, Executed=1, Rejected=2
 // Frontend: Active=0, Approved=1(virtual), Rejected=2, Executed=3
+// Converte o status numérico do contrato para o enum ProposalStatus do frontend.
 function mapContractStatus(raw: number): ProposalStatus {
   if (raw === 1) return ProposalStatus.Executed
   if (raw === 2) return ProposalStatus.Rejected
   return ProposalStatus.Active
 }
 
+// Traduz erro de votação em mensagem legível em português.
 export function translateVoteError(err: unknown): string {
   return translateContractError(err)
 }
 
+// Calcula o percentual de progresso da votação em relação ao quórum (0-100).
 export function votingProgressPercent(totalWeight: bigint, quorum: bigint): number {
   if (quorum === BigInt(0)) return 100
   const pct = Number((totalWeight * BigInt(100)) / quorum)
   return Math.min(pct, 100)
 }
 
+// Traduz erro de finalização de proposta em mensagem legível em português.
 export function translateFinalizeError(err: unknown): string {
   return translateContractError(err)
 }
 
+// Consulta o contrato para saber se o bootstrap inicial já foi executado.
 export async function fetchIsBootstrapped(provider: Provider): Promise<boolean> {
   const contract = getGovernanceDAOContract(provider)
   return contract.bootstrapped() as Promise<boolean>
 }
 
+// Consulta se um endereço já votou em uma proposta específica.
 export async function fetchHasVoted(
   proposalId: bigint,
   address: string,
@@ -85,6 +91,7 @@ export async function fetchHasVoted(
   return contract.hasVoted(proposalId, address) as Promise<boolean>
 }
 
+// Busca os dados atualizados de uma proposta individual mantendo name/metadata do evento original.
 export async function fetchSingleProposal(
   proposalId: bigint,
   provider: Provider,
@@ -109,6 +116,7 @@ export async function fetchSingleProposal(
   }
 }
 
+// Busca todas as propostas via eventos ProposalCreated e enriquece com dados do contrato.
 export async function fetchProposals(provider: Provider): Promise<Proposal[]> {
   const contract = getGovernanceDAOContract(provider)
   const filter = contract.filters.ProposalCreated()
@@ -181,6 +189,7 @@ export function computeEffectiveStatus(
   return ProposalStatus.Rejected
 }
 
+// Retorna o rótulo de exibição do status efetivo de uma proposta.
 export function getProposalStatusLabel(
   proposal: Pick<Proposal, 'status' | 'deadline' | 'yesWeight' | 'noWeight' | 'quorum'>,
   nowSeconds?: number,
@@ -212,12 +221,14 @@ export interface FormErrors {
 // Kinds que exibem campo Nome (name). Todos os kinds exigem metadata.
 export const KINDS_REQUIRING_NAME = new Set(['0', '1'])
 
+// Retorna o rótulo do campo metadata conforme o tipo de proposta.
 export function getMetadataLabel(kind: string): string {
   if (kind === '0') return 'Área de Atuação'
   if (kind === '1') return 'Tipo de Serviço'
   return 'Motivo da Proposta'
 }
 
+// Retorna o placeholder do campo metadata conforme o tipo de proposta.
 export function getMetadataPlaceholder(kind: string): string {
   if (kind === '0') return 'Ex: educação, saúde'
   if (kind === '1') return 'Ex: logística, tecnologia'
@@ -236,6 +247,7 @@ export interface BootstrapFormErrors {
   areaOfWork?: string
 }
 
+// Valida o formulário de bootstrap e retorna erros por campo.
 export function validateBootstrapForm(form: BootstrapFormState): BootstrapFormErrors {
   const errors: BootstrapFormErrors = {}
 
@@ -251,6 +263,7 @@ export function validateBootstrapForm(form: BootstrapFormState): BootstrapFormEr
   return errors
 }
 
+// Valida o formulário de nova proposta e retorna erros por campo.
 export function validateProposalForm(form: FormState): FormErrors {
   const errors: FormErrors = {}
 
@@ -273,6 +286,7 @@ export function validateProposalForm(form: FormState): FormErrors {
   return errors
 }
 
+// Lê o quórum mínimo configurado no contrato GovernanceDAO.
 export async function fetchMinQuorum(provider: Provider): Promise<bigint> {
   const contract = getGovernanceDAOContract(provider)
   return contract.minQuorum() as Promise<bigint>

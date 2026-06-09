@@ -16,6 +16,7 @@ export interface Institution {
   status: InstitutionStatus
 }
 
+// Busca o nome de uma instituição pelo endereço em uma lista local.
 export function resolveInstitutionName(
   institutions: Institution[],
   address: string,
@@ -24,6 +25,7 @@ export function resolveInstitutionName(
   return institutions.find((i) => i.address.toLowerCase() === normalized)?.name
 }
 
+// Busca todas as instituições registradas via eventos InstitutionRegistered e status atual.
 export async function fetchInstitutions(provider: Provider): Promise<Institution[]> {
   const contract = getInstitutionRegistryContract(provider)
   const filter = contract.filters.InstitutionRegistered()

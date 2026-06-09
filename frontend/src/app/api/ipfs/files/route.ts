@@ -4,6 +4,7 @@ import { parseServerEnv } from '@/env'
 import { parseLimit } from '@/lib/uploadValidation'
 import { isRateLimited } from '@/lib/rateLimiter'
 
+// Lista arquivos pinados no Pinata com filtros opcionais de limite, nome e CID.
 export async function GET(request: NextRequest): Promise<NextResponse> {
   if (isRateLimited(request, 30))
     return NextResponse.json(

@@ -11,6 +11,7 @@ contract ImpactNFT {
 
     ImpactRecord[] public records;
 
+    // Registra um novo impacto com ação, participante e timestamp do bloco atual.
     function registerImpact(
         string memory _action,
         string memory _participant
@@ -25,6 +26,7 @@ contract ImpactNFT {
         );
     }
 
+    // Retorna o total de registros de impacto armazenados no contrato.
     function totalRecords() public view returns(uint256) {
         return records.length;
     }

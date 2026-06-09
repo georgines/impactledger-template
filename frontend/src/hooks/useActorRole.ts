@@ -11,6 +11,7 @@ import {
 export type Role = 'operador' | 'instituicao' | 'fornecedor' | 'doador' | null
 export type AuthenticatedRole = NonNullable<Role>
 
+// Detecta o papel do endereço conectado consultando os contratos on-chain.
 export function useActorRole(address: string | null, provider: BrowserProvider | null): Role {
   const [role, setRole] = useState<Role>(null)
 
@@ -20,6 +21,7 @@ export function useActorRole(address: string | null, provider: BrowserProvider |
       return
     }
 
+    // Consulta contratos em paralelo e define o papel baseado na precedência operador > instituição > fornecedor > doador.
     async function detectRole() {
       const [operator, isInstitution, isSupplier] = await Promise.all([
         getGovernanceDAOContract(provider!).operator(),

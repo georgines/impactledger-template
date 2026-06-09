@@ -1,6 +1,7 @@
 import type { EventLog, Provider } from 'ethers'
 import { getPurchaseManagerContract } from '@/services/contractService'
 
+// Busca os timestamps de uma lista de blocos e retorna um mapa blockNumber→timestamp.
 async function fetchBlockTimestamps(
   provider: Provider,
   blockNumbers: number[],
@@ -14,6 +15,7 @@ async function fetchBlockTimestamps(
   return map
 }
 
+// Constrói um objeto Purchase combinando dados do evento e dados atuais do contrato.
 async function buildPurchaseFromEvent(
   contract: ReturnType<typeof getPurchaseManagerContract>,
   purchaseId: bigint,
@@ -71,6 +73,7 @@ export const PURCHASE_STATUS_COLORS: Record<PurchaseStatus, string> = {
   [PurchaseStatus.Refunded]: 'gray',
 }
 
+// Verifica se um prazo (Unix timestamp em segundos) já expirou.
 export function isDeadlineExpired(deadline: bigint): boolean {
   return deadline < BigInt(Math.floor(Date.now() / 1000))
 }
@@ -102,6 +105,7 @@ export interface ResolvedDispute {
   institutionVoteWeight: bigint
 }
 
+// Busca todos os pedidos de compra abertos por uma instituição específica.
 export async function fetchPurchasesByInstitution(
   provider: Provider,
   institutionAddress: string,
@@ -128,6 +132,7 @@ export async function fetchPurchasesByInstitution(
   )
 }
 
+// Busca todos os pedidos de compra direcionados a um fornecedor específico.
 export async function fetchPurchasesBySupplier(
   provider: Provider,
   supplierAddress: string,
@@ -150,6 +155,7 @@ export async function fetchPurchasesBySupplier(
   )
 }
 
+// Busca todos os pedidos atualmente em disputa via eventos DisputeOpened.
 export async function fetchDisputedPurchases(provider: Provider): Promise<Purchase[]> {
   const contract = getPurchaseManagerContract(provider)
   const filter = contract.filters.DisputeOpened()
@@ -180,6 +186,7 @@ export async function fetchDisputedPurchases(provider: Provider): Promise<Purcha
   return purchases.filter((p) => p.status === PurchaseStatus.Disputed)
 }
 
+// Busca todas as disputas já resolvidas via eventos DisputeResolved.
 export async function fetchResolvedDisputes(provider: Provider): Promise<ResolvedDispute[]> {
   const contract = getPurchaseManagerContract(provider)
   const filter = contract.filters.DisputeResolved()

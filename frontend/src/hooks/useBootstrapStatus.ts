@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import type { Provider } from 'ethers'
 import { fetchIsBootstrapped } from '@/services/governanceService'
 
+// Consulta se o bootstrap da plataforma já foi executado.
 export function useBootstrapStatus(provider: Provider | null) {
   const [isBootstrapped, setIsBootstrapped] = useState(false)
   const [loading, setLoading] = useState(false)

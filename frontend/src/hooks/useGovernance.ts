@@ -15,10 +15,12 @@ export interface ProposalInput {
   disputeVerdict: boolean
 }
 
+// Hook com ações de governança: criar proposta, votar e finalizar.
 export function useGovernance(signerOrProvider: Signer | Provider | null) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Envia transação de criação de proposta e aguarda confirmação.
   async function propose(input: ProposalInput): Promise<void> {
     if (!signerOrProvider) throw new Error('Signer/Provider não disponível')
     setLoading(true)
@@ -35,6 +37,7 @@ export function useGovernance(signerOrProvider: Signer | Provider | null) {
     }
   }
 
+  // Registra voto em uma proposta e aguarda confirmação.
   async function vote(proposalId: bigint, support: boolean): Promise<void> {
     if (!signerOrProvider) throw new Error('Signer não disponível')
     const contract = getGovernanceDAOContract(signerOrProvider)
@@ -42,6 +45,7 @@ export function useGovernance(signerOrProvider: Signer | Provider | null) {
     await tx.wait()
   }
 
+  // Finaliza a apuração de uma proposta e aguarda confirmação.
   async function finalize(proposalId: bigint, name: string, metadata: string): Promise<void> {
     if (!signerOrProvider) throw new Error('Signer não disponível')
     setLoading(true)

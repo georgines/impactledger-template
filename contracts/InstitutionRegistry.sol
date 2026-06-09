@@ -48,6 +48,7 @@ contract InstitutionRegistry is IInstitutionRegistry {
         governance = _governance;
     }
 
+    // Registra uma nova instituição com status Ativo; reverte se já registrada.
     function register(
         address institution,
         string calldata name,
@@ -62,6 +63,7 @@ contract InstitutionRegistry is IInstitutionRegistry {
         emit InstitutionRegistered(institution, name, areaOfWork);
     }
 
+    // Pausa uma instituição Ativa; reverte em transição inválida.
     function pause(address institution) external onlyGovernance {
         if (_status[institution] != Status.Active)
             revert InstitutionRegistry__InvalidTransition(
@@ -73,6 +75,7 @@ contract InstitutionRegistry is IInstitutionRegistry {
         emit InstitutionPaused(institution);
     }
 
+    // Reativa uma instituição Pausada; reverte em transição inválida.
     function unpause(address institution) external onlyGovernance {
         if (_status[institution] != Status.Paused)
             revert InstitutionRegistry__InvalidTransition(
@@ -84,6 +87,7 @@ contract InstitutionRegistry is IInstitutionRegistry {
         emit InstitutionUnpaused(institution);
     }
 
+    // Remove uma instituição Ativa ou Pausada; reverte se já inativa ou removida.
     function remove(address institution) external onlyGovernance {
         Status s = _status[institution];
         if (s == Status.Inactive || s == Status.Removed)
@@ -93,6 +97,7 @@ contract InstitutionRegistry is IInstitutionRegistry {
         emit InstitutionRemoved(institution);
     }
 
+    // Retorna true se a instituição está com status Ativo.
     function isActive(address institution) external view returns (bool) {
         return _status[institution] == Status.Active;
     }
@@ -104,6 +109,7 @@ contract InstitutionRegistry is IInstitutionRegistry {
         return s == Status.Active || s == Status.Paused;
     }
 
+    // Retorna o status atual (Inactive/Active/Paused/Removed) da instituição.
     function statusOf(address institution) external view returns (Status) {
         return _status[institution];
     }

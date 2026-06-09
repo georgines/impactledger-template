@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+// Hook genérico para buscar e armazenar lista de dados com estado de loading/error.
 export function useFetchData<T>(
   fetchFn: () => Promise<T[]>,
   enabled: boolean,
@@ -13,6 +14,7 @@ export function useFetchData<T>(
   const fetchFnRef = useRef(fetchFn)
   fetchFnRef.current = fetchFn
 
+  // Executa a função de busca e atualiza estado data/loading/error.
   const load = useCallback(async () => {
     if (!enabled) return
     setLoading(true)

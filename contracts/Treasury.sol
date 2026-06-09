@@ -98,6 +98,7 @@ contract Treasury {
     // Operações de saldo — apenas PurchaseManager
     // -------------------------------------------------------------------------
 
+    // Reserva valor do saldo disponível de uma instituição para um pedido de compra.
     function reserve(address institution, uint256 purchaseId, uint256 amount)
         external onlyPurchaseManager
     {
@@ -110,6 +111,7 @@ contract Treasury {
         emit BalanceReserved(institution, purchaseId, amount);
     }
 
+    // Libera valor reservado e transfere ETH ao fornecedor.
     function release(address institution, address supplier, uint256 purchaseId, uint256 amount)
         external onlyPurchaseManager
     {
@@ -126,6 +128,7 @@ contract Treasury {
         if (!ok) revert Treasury__TransferFailed();
     }
 
+    // Devolve valor reservado ao saldo disponível da instituição (disputa favorável).
     function returnFunds(address institution, uint256 purchaseId, uint256 amount)
         external onlyPurchaseManager
     {
@@ -142,6 +145,7 @@ contract Treasury {
     // Remoção de instituição — apenas GovernanceDAO
     // -------------------------------------------------------------------------
 
+    // Confisca todo saldo disponível e reservado de uma instituição removida para o cofre central.
     function seizeToVault(address institution) external onlyGovernance {
         uint256 total = availableBalance[institution] + reservedBalance[institution];
         availableBalance[institution] = 0;
@@ -162,6 +166,7 @@ contract Treasury {
         return _weightHistory[donor].weightAt(blockNumber);
     }
 
+    // Retorna o peso de voto atual do doador (último checkpoint registrado).
     function currentVotingWeight(address donor) external view returns (uint256) {
         VotingCheckpoint.Checkpoint[] storage ckpts = _weightHistory[donor];
         uint256 len = ckpts.length;

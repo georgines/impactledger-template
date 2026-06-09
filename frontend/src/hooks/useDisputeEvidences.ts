@@ -11,11 +11,13 @@ export interface DisputeEvidence {
   timestamp: number
 }
 
+// Hook que carrega as evidências submetidas em uma disputa com timestamp de bloco.
 export function useDisputeEvidences(provider: Provider | null, purchaseId: bigint) {
   const [evidences, setEvidences] = useState<DisputeEvidence[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
+  // Busca eventos DisputeEvidenceAdded e enriquece com timestamps dos blocos.
   const load = useCallback(async () => {
     if (!provider) return
     setLoading(true)

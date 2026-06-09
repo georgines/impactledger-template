@@ -29,6 +29,7 @@ const RPC_URL = process.env.URL_RPC ?? 'http://127.0.0.1:8545'
 
 export const OUT_PATH = path.resolve(__dirname, '..', 'frontend', 'src', 'deploy', 'local.json')
 
+// Salva o resultado do deploy local em JSON no diretório de deploy do frontend.
 export function saveDeployOutput(deployer: string, addresses: DeployedAddresses): void {
   const output = {
     network: 'localhost',
@@ -42,6 +43,7 @@ export function saveDeployOutput(deployer: string, addresses: DeployedAddresses)
   console.log('\nSaída salva em:', OUT_PATH)
 }
 
+// Orquestra o deploy completo na rede local Anvil com endereços pré-calculados.
 export async function main(): Promise<void> {
   const provider = new ethers.JsonRpcProvider(RPC_URL)
   await checkNodeConnection(provider, RPC_URL)

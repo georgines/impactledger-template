@@ -5,6 +5,7 @@ import { useOrderCreation } from '@/hooks/useOrderCreation'
 import { useOrderConfirmation } from '@/hooks/useOrderConfirmation'
 import { useDisputeActions } from '@/hooks/useDisputeActions'
 
+// Hook agregador que combina criação, confirmação e disputas de pedidos de compra.
 export function usePurchaseManager(signer: Signer | null) {
   const creation = useOrderCreation(signer)
   const confirmation = useOrderConfirmation(signer)

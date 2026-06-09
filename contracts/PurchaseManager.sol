@@ -125,6 +125,7 @@ contract PurchaseManager {
     // Gestão de fornecedores — apenas GovernanceDAO
     // -------------------------------------------------------------------------
 
+    // Aprova um fornecedor na whitelist via GovernanceDAO.
     function approveSupplier(
         address supplier,
         string calldata name,
@@ -133,10 +134,12 @@ contract PurchaseManager {
         _supplierRegistry.approve(supplier, name, serviceType);
     }
 
+    // Remove um fornecedor da whitelist via GovernanceDAO.
     function revokeSupplier(address supplier) external onlyGovernance {
         _supplierRegistry.revoke(supplier);
     }
 
+    // Retorna true se o fornecedor está aprovado na whitelist.
     function approvedSuppliers(address supplier) external view returns (bool) {
         return _supplierRegistry.isWhitelisted[supplier];
     }
@@ -389,14 +392,17 @@ contract PurchaseManager {
     // Leitura
     // -------------------------------------------------------------------------
 
+    // Retorna os dados completos de um pedido de compra pelo ID.
     function getPurchase(uint256 purchaseId) external view returns (Purchase memory) {
         return _getPurchase(purchaseId);
     }
 
+    // Retorna os hashes IPFS das evidências submetidas em uma disputa.
     function getDisputeEvidences(uint256 purchaseId) external view returns (bytes32[] memory) {
         return _disputeEvidences[purchaseId];
     }
 
+    // Verifica se um endereço já votou na disputa de um pedido.
     function hasVotedOnDispute(uint256 purchaseId, address voter) external view returns (bool) {
         return _hasVotedOnDispute[purchaseId][voter];
     }
@@ -405,6 +411,7 @@ contract PurchaseManager {
     // Interno
     // -------------------------------------------------------------------------
 
+    // Busca um pedido pelo ID; reverte com PurchaseNotFound se não existir.
     function _getPurchase(uint256 purchaseId) private view returns (Purchase storage) {
         Purchase storage p = _purchases[purchaseId];
         if (p.purchaseId == 0) revert PurchaseManager__PurchaseNotFound(purchaseId);

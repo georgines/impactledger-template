@@ -4,6 +4,7 @@ import { parseServerEnv } from '@/env'
 import { validateUploadFile } from '@/lib/uploadValidation'
 import { isRateLimited } from '@/lib/rateLimiter'
 
+// Recebe arquivo via multipart, valida e faz upload público ao Pinata.
 export async function POST(request: NextRequest): Promise<NextResponse> {
   if (isRateLimited(request, 10))
     return NextResponse.json(

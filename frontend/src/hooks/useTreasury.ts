@@ -19,10 +19,12 @@ export type InstitutionBalance = {
   reserved: bigint
 }
 
+// Hook com funções de leitura do Treasury: saldos disponível, reservado, cofre e histórico.
 export function useTreasury(signerOrProvider: Signer | Provider | null) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Lê o saldo disponível de uma instituição no Treasury.
   async function getAvailableBalance(address: string): Promise<bigint> {
     if (!signerOrProvider) throw new Error('Provider não disponível')
     setLoading(true)
@@ -39,6 +41,7 @@ export function useTreasury(signerOrProvider: Signer | Provider | null) {
     }
   }
 
+  // Lê o saldo reservado em pedidos abertos de uma instituição.
   async function getReservedBalance(address: string): Promise<bigint> {
     if (!signerOrProvider) throw new Error('Provider não disponível')
     setLoading(true)
@@ -55,6 +58,7 @@ export function useTreasury(signerOrProvider: Signer | Provider | null) {
     }
   }
 
+  // Lê o saldo total do Cofre Central acumulado de instituições removidas.
   async function getCentralVault(): Promise<bigint> {
     if (!signerOrProvider) throw new Error('Provider não disponível')
     setLoading(true)
@@ -71,6 +75,7 @@ export function useTreasury(signerOrProvider: Signer | Provider | null) {
     }
   }
 
+  // Busca histórico de pagamentos liberados a um fornecedor com timestamps de bloco.
   async function getPaymentHistory(supplierAddress: string): Promise<PaymentEvent[]> {
     if (!signerOrProvider) throw new Error('Provider não disponível')
     setLoading(true)
@@ -111,6 +116,7 @@ export function useTreasury(signerOrProvider: Signer | Provider | null) {
     }
   }
 
+  // Busca saldos disponível e reservado de múltiplas instituições em paralelo.
   async function getInstitutionBalances(addresses: string[]): Promise<InstitutionBalance[]> {
     if (!signerOrProvider) throw new Error('Provider não disponível')
     const contract = getTreasuryContract(signerOrProvider)

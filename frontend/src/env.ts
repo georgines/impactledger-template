@@ -12,6 +12,7 @@ const serverSchema = z.object({
 
 export type ServerEnv = z.infer<typeof serverSchema>
 
+// Valida e retorna variáveis de ambiente do servidor; lança erro detalhado se ausentes.
 export function parseServerEnv(): ServerEnv {
   const result = serverSchema.safeParse({
     CHAVE_PINATA: process.env.CHAVE_PINATA,
@@ -35,6 +36,7 @@ const rpcSchema = z.object({
 
 export type RpcEnv = z.infer<typeof rpcSchema>
 
+// Valida e retorna URL_RPC com fallback para localhost:8545.
 export function parseRpcEnv(): RpcEnv {
   return rpcSchema.parse({ URL_RPC: process.env.URL_RPC })
 }

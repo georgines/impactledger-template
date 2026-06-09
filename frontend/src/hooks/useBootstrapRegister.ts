@@ -5,10 +5,12 @@ import type { Signer } from 'ethers'
 import { getGovernanceDAOContract } from '@/services/contractService'
 import { translateContractError } from '@/services/contractErrors'
 
+// Hook para executar o registro inicial da plataforma sem votação.
 export function useBootstrapRegister(signer: Signer | null) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Chama bootstrapRegister no contrato e aguarda confirmação da transação.
   async function bootstrapRegister(
     address: string,
     name: string,

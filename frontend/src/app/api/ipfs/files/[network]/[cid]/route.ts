@@ -3,6 +3,7 @@ import { PinataProvider } from '@/services/ipfs/pinataProvider'
 import { parseServerEnv } from '@/env'
 import type { IpfsNetwork } from '@/services/ipfs/provider'
 
+// Busca metadados de um arquivo IPFS específico por rede e CID.
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ network: string; cid: string }> },

@@ -4,6 +4,7 @@ import { parseServerEnv } from '@/env'
 import type { IpfsNetwork } from '@/services/ipfs/provider'
 import { isRateLimited } from '@/lib/rateLimiter'
 
+// Proxy de fetch IPFS: aceita /fetch/[cid] ou /fetch/[network]/[cid].
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ params: string[] }> },
