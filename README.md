@@ -59,21 +59,25 @@ Quatro tipos de participante movem essa engrenagem:
 
 ## Para rodar
 
-**1. Clonar e instalar**
+**1. Clonar**
 
 ```bash
 git clone --recurse-submodules https://github.com/georgines/impactledger-template.git
-
-cd projeto_final && cp .env.example .env && yarn install
 ```
 
-**2. Terminal 1** (deixe aberto e rodando):
+**2. Instalar**
+
+```bash
+cd impactledger-template && cp .env.example .env && yarn install
+```
+
+**3. Terminal 1** (deixe aberto e rodando):
 
 ```bash
 anvil --block-time 1
 ```
 
-**3. Terminal 2** (após o Terminal 1 estar no ar):
+**4. Terminal 2** (após o Terminal 1 estar no ar):
 
 ```bash
 yarn deploy:local && yarn copy-abis && yarn dev:turbo

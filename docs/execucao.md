@@ -67,15 +67,11 @@ sudo apt-get install -y libglib2.0-0 libnss3 libatk1.0-0 libatk-bridge2.0-0 \
 
 Usa Anvil como blockchain local. Nenhum ETH real necessário.
 
-### 1. Clonar e instalar
+### 1. Clonar
 
 ```bash
-mkdir -p ~/projetos
-cd ~/projetos
-git clone https://github.com/georgines/projeto_final.git
-cd projeto_final
-yarn install
-npx playwright install chrome
+git clone --recurse-submodules https://github.com/georgines/impactledger-template.git
+cd impactledger-template
 ```
 
 ### 2. Configurar o ambiente
@@ -100,14 +96,21 @@ URL_GATEWAY_PINATA=https://seu_gateway.mypinata.cloud/ipfs
 **Terminal 1** (deixe aberto e rodando):
 
 ```bash
-cd ~/projetos/projeto_final
+yarn install
+npx playwright install chrome
+```
+
+### 4. Rodar o projeto (2 terminais)
+
+**Terminal 1** (deixe aberto e rodando):
+
+```bash
 anvil --block-time 1
 ```
 
 **Terminal 2** (após o Terminal 1 estar no ar):
 
 ```bash
-cd ~/projetos/projeto_final
 yarn deploy:local && yarn copy-abis
 yarn dev:turbo
 ```
@@ -144,8 +147,12 @@ Acesse [sepoliafaucet.com](https://sepoliafaucet.com) e solicite ETH de teste pa
 ### 3. Iniciar o frontend
 
 ```bash
-cd ~/projetos/projeto_final
 yarn dev:turbo
+```
+ou 
+
+```bash
+yarn build && yarn start
 ```
 
 **Acesso:** http://localhost:3000

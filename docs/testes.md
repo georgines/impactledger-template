@@ -22,7 +22,6 @@ O projeto tem três camadas de testes:
 ### Todos os testes (contratos + frontend)
 
 ```bash
-cd ~/projetos/projeto_final
 yarn test
 ```
 
@@ -62,7 +61,6 @@ Os testes E2E exigem Anvil rodando e o frontend no ar.
 
 ```bash
 # Terminal 3 (com Anvil + frontend já rodando)
-cd ~/projetos/projeto_final
 yarn test:e2e
 ```
 
