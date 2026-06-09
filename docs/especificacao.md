@@ -8,13 +8,13 @@ Sistema de gestão, rastreabilidade e **comprovação auditável de impacto** de
 
 ## Atores
 
-**Operador de Plataforma** — dono técnico do contrato. Sobe contratos na rede e pode abrir propostas de modificação. Não tem poder de voto e não executa nada após uma votação — a execução é automática pelo contrato.
+**Operador de Plataforma**: dono técnico do contrato. Sobe contratos na rede e pode abrir propostas de modificação. Não tem poder de voto e não executa nada após uma votação; a execução é automática pelo contrato.
 
-**Instituição** — organização social cadastrada via DAO. Administra os recursos alocados ao seu projeto. Solicita produtos e serviços a fornecedores aprovados, confirma o recebimento on-chain e submete as evidências físicas (Proof of Impact) ao IPFS — o contrato valida o hash on-chain antes de liberar o pagamento ao Fornecedor. Não tem poder de voto e não pode abrir propostas.
+**Instituição**: organização social cadastrada via DAO. Administra os recursos alocados ao seu projeto. Solicita produtos e serviços a fornecedores aprovados, confirma o recebimento on-chain e submete as evidências físicas (Proof of Impact) ao IPFS; o contrato valida o hash on-chain antes de liberar o pagamento ao Fornecedor. Não tem poder de voto e não pode abrir propostas.
 
-**Fornecedor** — entidade externa previamente aprovada e incluída na whitelist on-chain pela DAO. Entrega produtos ou serviços à Instituição, confirma a entrega on-chain e recebe o pagamento em ETH após confirmação da Instituição ou resolução de disputa favorável. Pagamentos a endereços fora da whitelist são revertidos automaticamente pelo contrato.
+**Fornecedor**: entidade externa previamente aprovada e incluída na whitelist on-chain pela DAO. Entrega produtos ou serviços à Instituição, confirma a entrega on-chain e recebe o pagamento em ETH após confirmação da Instituição ou resolução de disputa favorável. Pagamentos a endereços fora da whitelist são revertidos automaticamente pelo contrato.
 
-**Doadores** — podem doar quantas vezes quiserem para a causa social de sua escolha dentro da plataforma (ex: abrigo de animais, distribuição de alimentos). Não propõem mudanças. Votam nas propostas abertas pelo Operador e nas disputas entre Instituição e Fornecedor. O peso de voto segue o modelo de **Votação Quadrática**: `votos = sqrt(valor_total_doado)`, reduzindo a dominância de grandes doadores e preservando o caráter democrático da governança. Quando o quórum é atingido, o contrato executa automaticamente — sem intervenção humana.
+**Doadores**: podem doar quantas vezes quiserem para a causa social de sua escolha dentro da plataforma (ex: abrigo de animais, distribuição de alimentos). Não propõem mudanças. Votam nas propostas abertas pelo Operador e nas disputas entre Instituição e Fornecedor. O peso de voto segue o modelo de **Votação Quadrática**: `votos = sqrt(valor_total_doado)`, reduzindo a dominância de grandes doadores e preservando o caráter democrático da governança. Quando o quórum é atingido, o contrato executa automaticamente, sem intervenção humana.
 
 
 ---
@@ -23,31 +23,31 @@ Sistema de gestão, rastreabilidade e **comprovação auditável de impacto** de
 
 O Operador abre uma proposta on-chain. Os Doadores votam com peso quadrático (`sqrt(valor_total_doado)`). Se o quórum for atingido, o contrato executa automaticamente uma das seguintes ações:
 
-- **Pausar/Despausar uma Instituição** — bloqueia completamente a entrada de doações e a saída de recursos daquela Instituição. Nenhuma doação pode ser direcionada a ela e nenhum gasto pode ser executado enquanto estiver pausada. A despausa reverte esse estado.
-- **Remoção de uma Instituição** — revoga o acesso da Instituição à plataforma e transfere o saldo restante ao **Cofre Central** da plataforma (operação O(1), sem iteração sobre arrays). O reaproveitamento desse saldo é submetido a nova rodada de governança para financiamento de novos projetos.
-- **Aprovação de nova Instituição** — inclui a organização social na plataforma, habilitando o recebimento de doações e a execução de projetos.
-- **Aprovação de novo Fornecedor** — inclui o endereço do fornecedor na whitelist on-chain.
+- **Pausar/Despausar uma Instituição**: bloqueia completamente a entrada de doações e a saída de recursos daquela Instituição. Nenhuma doação pode ser direcionada a ela e nenhum gasto pode ser executado enquanto estiver pausada. A despausa reverte esse estado.
+- **Remoção de uma Instituição**: revoga o acesso da Instituição à plataforma e transfere o saldo restante ao **Cofre Central** da plataforma (operação O(1), sem iteração sobre arrays). O reaproveitamento desse saldo é submetido a nova rodada de governança para financiamento de novos projetos.
+- **Aprovação de nova Instituição**: inclui a organização social na plataforma, habilitando o recebimento de doações e a execução de projetos.
+- **Aprovação de novo Fornecedor**: inclui o endereço do fornecedor na whitelist on-chain.
 
 Se o quórum não for atingido e o prazo de validade da votação expirar, a proposta é rejeitada sem efeito.
 
 ---
 
-## Fluxo operacional — pagamento
+## Fluxo operacional: pagamento
 
 1. Instituição solicita produto ou serviço a um Fornecedor on-chain. O contrato valida que o endereço do Fornecedor está na whitelist aprovada.
-2. Contrato valida: Instituição ativa, não pausada e com saldo suficiente. Se válido, abre uma solicitação de compra formal com um prazo de entrega definido e bloqueia o valor no contrato — o saldo fica reservado e não pode ser usado em outra transação.
+2. Contrato valida: Instituição ativa, não pausada e com saldo suficiente. Se válido, abre uma solicitação de compra formal com um prazo de entrega definido e bloqueia o valor no contrato; o saldo fica reservado e não pode ser usado em outra transação.
 3. Fornecedor entrega o produto ou executa o serviço e confirma a entrega on-chain.
 4. Instituição confirma o recebimento on-chain.
 5. Instituição submete o Proof of Impact ao IPFS (fotografias georreferenciadas, laudos ou dados de sensores IoT) e registra o hash on-chain. O contrato valida a existência do hash antes de prosseguir.
 6. Contrato libera o pagamento automaticamente ao Fornecedor em ETH.
 7. Recibo imutável é gravado na blockchain.
 
-### Caminho alternativo — disputa
+### Caminho alternativo: disputa
 
 Disputas são abertas pela parte prejudicada após o esgotamento do prazo predefinido. O contrato restringe quem pode acionar cada tipo de disputa.
 
-- **Disputa contra o Fornecedor** — o prazo de entrega predefinido expira sem que o Fornecedor tenha confirmado a entrega on-chain. Apenas a **Instituição** do pedido pode acionar a abertura de disputa (`openDispute`). O botão "Confirmar Entrega" some da visão do Fornecedor. O contrato rejeita qualquer outro chamador com `PurchaseManager__OnlyInstitution`.
-- **Disputa contra a Instituição** — o Fornecedor confirma a entrega on-chain, mas a Instituição não confirma o recebimento até o prazo predefinido. Apenas o **Fornecedor** do pedido pode acionar a abertura de disputa (`openDispute`). O botão de confirmação some da visão da Instituição. O contrato rejeita qualquer outro chamador com `PurchaseManager__OnlySupplier`.
+- **Disputa contra o Fornecedor**: o prazo de entrega predefinido expira sem que o Fornecedor tenha confirmado a entrega on-chain. Apenas a **Instituição** do pedido pode acionar a abertura de disputa (`openDispute`). O botão "Confirmar Entrega" some da visão do Fornecedor. O contrato rejeita qualquer outro chamador com `PurchaseManager__OnlyInstitution`.
+- **Disputa contra a Instituição**: o Fornecedor confirma a entrega on-chain, mas a Instituição não confirma o recebimento até o prazo predefinido. Apenas o **Fornecedor** do pedido pode acionar a abertura de disputa (`openDispute`). O botão de confirmação some da visão da Instituição. O contrato rejeita qualquer outro chamador com `PurchaseManager__OnlySupplier`.
 
 Em ambos os casos, durante o período de disputa:
 
@@ -63,23 +63,23 @@ Em ambos os casos, durante o período de disputa:
 
 Seção do menu visível para Operador, Instituição e Fornecedor. Cada um vê informações relevantes ao seu papel:
 
-- **Operador**: vê três números globais da plataforma — quanto foi doado ao total desde o início, quanto está guardado agora (nas contas das instituições mais o cofre central) e quanto está no cofre central. Abaixo, uma lista de todas as instituições com o saldo de cada uma, podendo buscar por nome.
+- **Operador**: vê três números globais da plataforma: quanto foi doado ao total desde o início, quanto está guardado agora (nas contas das instituições mais o cofre central) e quanto está no cofre central. Abaixo, uma lista de todas as instituições com o saldo de cada uma, podendo buscar por nome.
 - **Instituição**: vê quanto dinheiro tem disponível para fazer novos pedidos e quanto está bloqueado aguardando a conclusão de pedidos já em andamento.
 - **Fornecedor**: vê o histórico de pagamentos que já recebeu da plataforma.
 
-O Doador **não tem acesso** a essa seção — suas informações estão em "Minhas Doações".
+O Doador **não tem acesso** a essa seção; suas informações estão em "Minhas Doações".
 
 ---
 
 ## Mapa do Bem
 
-Painel público da plataforma onde qualquer pessoa pode acompanhar o que está acontecendo com o dinheiro — sem precisar entender blockchain. Não exige carteira conectada.
+Painel público da plataforma onde qualquer pessoa pode acompanhar o que está acontecendo com o dinheiro, sem precisar entender blockchain. Não exige carteira conectada.
 
 A tela mostra duas coisas juntas, em ordem do mais recente para o mais antigo: as **doações** que chegaram às instituições e os **pagamentos** feitos a fornecedores. Para cada doação, aparece quem doou, para qual instituição e quanto. Para cada pagamento, aparece o pedido correspondente, a instituição, o fornecedor pago, o valor e o link para as evidências físicas registradas (Proof of Impact).
 
 No topo, três números resumem a situação geral: quanto foi doado no total, quanto foi pago com prova de impacto registrada e quantas instituições diferentes aparecem no histórico.
 
-Um filtro simples permite ver só as doações, só os pagamentos ou tudo junto. Nada é editável — os dados vêm diretamente da blockchain e não podem ser alterados por ninguém.
+Um filtro simples permite ver só as doações, só os pagamentos ou tudo junto. Nada é editável; os dados vêm diretamente da blockchain e não podem ser alterados por ninguém.
 
 ---
 
@@ -91,7 +91,7 @@ Para aprovar uma instituição na plataforma, é preciso ter doadores com poder 
 
 ### A solução: a chave mestra que funciona uma só vez
 
-O administrador da plataforma (Operador) tem acesso a uma função especial chamada **registro inicial**. Ela funciona como uma chave mestra: permite cadastrar a **primeira instituição sem precisar de votação**. Assim que essa chave é usada, ela se destrói automaticamente — nunca mais pode ser usada novamente, por ninguém, nem mesmo pelo Operador.
+O administrador da plataforma (Operador) tem acesso a uma função especial chamada **registro inicial**. Ela funciona como uma chave mestra: permite cadastrar a **primeira instituição sem precisar de votação**. Assim que essa chave é usada, ela se destrói automaticamente; nunca mais pode ser usada novamente, por ninguém, nem mesmo pelo Operador.
 
 Como funciona na prática:
 
@@ -102,7 +102,7 @@ Como funciona na prática:
 
 Garantias:
 - Só pode ser feito **uma única vez**. Qualquer tentativa de uso repetido é bloqueada automaticamente.
-- O registro fica registrado publicamente na blockchain — qualquer pessoa pode verificar.
+- O registro fica publicamente na blockchain: qualquer pessoa pode verificar.
 - Após o registro inicial, o Operador não tem mais atalhos: tudo passa pela governança.
 
 ---

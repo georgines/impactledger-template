@@ -15,11 +15,11 @@ Você já doou para uma instituição e ficou sem saber se aquele dinheiro chego
 O modelo atual de doação tem pelo menos quatro furos sérios:
 
 1. **A opacidade:** Assim que sai da sua carteira, o dinheiro entra num sistema fechado. Quem escreve os relatórios é a própria organização, sem auditoria de fora, e não existe forma de conferir se o valor declarado foi gasto no que prometeram.  
-2. **A falta de prova real de impacto:** Mesmo quando uma ONG mostra resultado, a evidência costuma ser PDF, foto ou planilha — documentos que qualquer pessoa com acesso ao sistema edita, apaga ou inventa do zero.  
+2. **A falta de prova real de impacto:** Mesmo quando uma ONG mostra resultado, a evidência costuma ser PDF, foto ou planilha, documentos que qualquer pessoa com acesso ao sistema edita, apaga ou inventa do zero.  
 3. **A governança centralizada:** Um grupo pequeno de administradores decide para onde o dinheiro vai, quais fornecedores são contratados e o que fazer diante de uma suspeita; quem doou não tem voz nessas decisões.  
 4. **A ausência de auditoria pública de verdade:** Quando ela existe, é cara, lenta, e só especialista entende. O cidadão comum fica de fora.
 
-Dá pra ver o resultado disso todos os dias: doador desconfia e para de doar; organização desonesta opera sem punição; fornecedor recebe por entrega que nunca aconteceu; e ninguém — nem a própria instituição — consegue provar que aquele dinheiro gerou impacto de verdade.
+Dá pra ver o resultado disso todos os dias: doador desconfia e para de doar; organização desonesta opera sem punição; fornecedor recebe por entrega que nunca aconteceu; e ninguém, nem a própria instituição, consegue provar que aquele dinheiro gerou impacto de verdade.
 
 Esse modelo foi montado sobre papel e confiança, numa época sem tecnologia capaz de criar registro à prova de adulteração, auditoria descentralizada ou decisão coletiva sem intermediário. **Isso mudou.**
 
@@ -27,8 +27,8 @@ Esse modelo foi montado sobre papel e confiança, numa época sem tecnologia cap
 
 O EloSolidário usa contratos inteligentes na blockchain Ethereum para fechar essas brechas, uma a uma:
 
-* **Quem decide é quem doa:** Toda decisão importante — aprovar uma instituição nova, contratar um fornecedor, pausar uma operação suspeita — vai a votação on-chain. O peso de cada voto segue a Votação Quadrática (peso \= √(total doado)), que dá voz proporcional a quem doou mais sem deixar ninguém esmagar os pequenos. Quando o quórum é atingido, qualquer participante aciona a execução — não existe um botão que só o administrador aperta.  
-* **Nenhum pagamento sai sem prova:** A instituição confirma que recebeu o produto ou serviço, sobe as evidências físicas — fotos georreferenciadas, laudos, dados de sensor IoT — para o IPFS e grava o hash desse arquivo on-chain. O contrato confere esse hash antes de liberar qualquer valor, e a evidência fica accessible para sempre: ninguém edita, ninguém apaga.  
+* **Quem decide é quem doa:** Toda decisão importante (aprovar uma instituição nova, contratar um fornecedor, pausar uma operação suspeita) vai a votação on-chain. O peso de cada voto segue a Votação Quadrática (peso \= √(total doado)), que dá voz proporcional a quem doou mais sem deixar ninguém esmagar os pequenos. Quando o quórum é atingido, qualquer participante aciona a execução; não existe um botão que só o administrador aperta.  
+* **Nenhum pagamento sai sem prova:** A instituição confirma que recebeu o produto ou serviço, sobe as evidências físicas (fotos georreferenciadas, laudos, dados de sensor IoT) para o IPFS e grava o hash desse arquivo on-chain. O contrato confere esse hash antes de liberar qualquer valor, e a evidência fica accessible para sempre: ninguém edita, ninguém apaga.  
 * **Fornecedor só recebe se a comunidade aprovou:** A aprovação passa por proposta e votação da DAO; não existe aprovação manual de administrador. Tentou mandar pagamento para um endereço fora da whitelist? O contrato rejeita na hora, automaticamente.  
 * **Qualquer pessoa audita, sem precisar de login:** Não precisa criar conta nem conectar carteira para acompanhar para onde o dinheiro vai. Vem direto da blockchain, e nada do que está lá pode ser editado depois.
 
@@ -48,7 +48,7 @@ Quatro tipos de participante movem essa engrenagem:
 | Antes | Com EloSolidário |
 | :---- | :---- |
 | Relatório editável, sem auditoria | Hash IPFS imutável, registrado on-chain |
-| Decisão concentrada em administradores | Votação coletiva — quem atinge quórum executa |
+| Decisão concentrada em administradores | Votação coletiva: quem atinge quórum executa |
 | Fornecedor sem fiscalização | Whitelist on-chain aprovada pela comunidade |
 | Auditoria cara e fechada a especialistas | Painel público, sem login, aberto a qualquer pessoa |
 | Pagamento liberado sem prova de entrega | Pagamento só sai com Proof of Impact validado |
