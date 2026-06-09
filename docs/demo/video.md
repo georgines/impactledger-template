@@ -1,7 +1,7 @@
 # Vídeo de Demonstração
 
 [Início](../../README.md)
-
+## **Pitch**
 ---
 
 <p align="center">
@@ -15,5 +15,22 @@
 </p>
 
 ---
+## **Video de demonstração**
+---
+
+<p align="center">
+  <a href="https://youtu.be/UmObNj_iZ0o" target="_blank">
+    <img src="https://img.youtube.com/vi/UmObNj_iZ0o/maxresdefault.jpg" alt="Assistir vídeo de demonstração" width="100%"/>
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://youtu.be/UmObNj_iZ0o">▶ Assistir no YouTube</a>
+</p>
+
+---
+
+
+
 
 [← Capturas de tela do fluxo principal](screenshots.md) | [Como rodar o projeto localmente ou na Sepolia →](../execucao.md)
